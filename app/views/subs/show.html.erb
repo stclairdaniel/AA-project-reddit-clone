@@ -1,0 +1,4 @@
+<h1> <%= @sub.title %></h1>
+<h2> <%= @sub.description %></h2>
+<p> <%= @sub.moderator.user_name %> </p>
+<%= link_to "edit sub", edit_sub_url, method: :get %>

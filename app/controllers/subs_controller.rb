@@ -1,4 +1,7 @@
 class SubsController < ApplicationController
+
+  before_action :moderator_check, only: [:edit, :update]
+
   def new
     @sub = Sub.new
     render :new
@@ -11,7 +14,12 @@ class SubsController < ApplicationController
 
   def update
     @sub = Sub.find(params[:id])
-    if @sub.update
+    user = User.find_by(user_name: params[:sub][:moderator])
+    if user
+      moderator_id = user.id
+    end
+
+    if @sub.update(title: sub_params[:title], description: sub_params[:description], moderator_id: @sub.moderator_id)
       redirect_to sub_url(@sub)
     else
       flash.now[:errors] = [@sub.errors.full_messages]
@@ -20,7 +28,13 @@ class SubsController < ApplicationController
   end
 
   def create
-    @sub = Sub.new(sub_params)
+    user = User.find_by(user_name: params[:sub][:moderator])
+    if user
+      moderator_id = user.id
+    end
+
+    @sub = Sub.new(title: sub_params[:title], description: sub_params[:description], moderator_id: moderator_id)
+
     if @sub.save
       redirect_to sub_url(@sub)
     else
@@ -40,7 +54,15 @@ class SubsController < ApplicationController
   end
 
   private
-  def subs_params
+  def sub_params
     params.require(:sub).permit(:title, :description, :moderator_id)
+  end
+
+  def moderator_check
+    @sub = Sub.find(params[:id])
+    unless current_user && current_user.id == @sub.moderator_id
+      flash[:errors] = ["Only moderators can edit subs"]
+      redirect_to sub_url(@sub)
+    end
   end
 end

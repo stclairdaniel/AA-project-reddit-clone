@@ -1,5 +1,5 @@
 class Sub < ActiveRecord::Base
-  has_one :moderator,
+  belongs_to :moderator,
     primary_key: :id,
     foreign_key: :moderator_id,
     class_name: :User

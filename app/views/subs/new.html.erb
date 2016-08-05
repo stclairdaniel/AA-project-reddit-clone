@@ -1,0 +1,16 @@
+<form  action=" <%= subs_url %>" method="post">
+  <%= auth_token %>
+  <label>Title:
+    <input type="text" name="sub[title]" value="<%= @sub.title %>">
+  </label>
+
+  <label>Moderator:
+    <input type="text" name="sub[moderator]" value="<%= @sub.moderator %>">
+  </label>
+
+  <label>Description:
+    <textarea name="sub[description]" rows="8" cols="40" placeholder="Enter description", value ="<%= @sub.description  %>"></textarea>
+  </label>
+
+  <input type="submit" value="Create Sub">
+</form>
