@@ -1,0 +1,21 @@
+<form  action=" <%= posts_url %>" method="post">
+  <%= auth_token %>
+  <label>Title:
+    <input type="text" name="post[title]" value="<%= @post.title %>">
+  </label>
+
+  <label>URL:
+    <input type="text" name="post[url]" value="<%= @post.url %>">
+  </label>
+
+  <label>Sub:
+    <input type="text" name="post[sub_title]" value="<%= @post.sub.title unless @post.id.nil? %>">
+  </label>
+
+
+  <label>Content:
+    <textarea name="post[content]" rows="8" cols="40" placeholder="Enter content"><%= @post.content %></textarea>
+  </label>
+
+  <input type="submit" value="Create Post">
+</form>

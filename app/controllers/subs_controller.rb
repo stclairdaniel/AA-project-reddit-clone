@@ -2,18 +2,23 @@ class SubsController < ApplicationController
 
   before_action :moderator_check, only: [:edit, :update]
 
+  def index
+    @subs = Sub.all
+    render :index
+  end
+
   def new
     @sub = Sub.new
     render :new
   end
 
   def edit
-    @sub = Sub.find(params[:id])
+    @sub = Sub.find_by(id: params[:id])
     render :edit
   end
 
   def update
-    @sub = Sub.find(params[:id])
+    @sub = Sub.find_by(id: params[:id])
     user = User.find_by(user_name: params[:sub][:moderator])
     if user
       moderator_id = user.id
@@ -44,7 +49,7 @@ class SubsController < ApplicationController
   end
 
   def show
-    @sub = Sub.find(params[:id])
+    @sub = Sub.find_by(id: params[:id])
     if @sub
       render :show
     else
@@ -59,7 +64,7 @@ class SubsController < ApplicationController
   end
 
   def moderator_check
-    @sub = Sub.find(params[:id])
+    @sub = Sub.find_by(id: params[:id])
     unless current_user && current_user.id == @sub.moderator_id
       flash[:errors] = ["Only moderators can edit subs"]
       redirect_to sub_url(@sub)
