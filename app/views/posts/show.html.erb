@@ -5,4 +5,7 @@
 <%= button_to "Edit Post", edit_post_url, method: :get %>
 <%= button_to "Delete Post", post_url(@post), method: :delete %>
 Go back to:
-<%= link_to "#{@post.sub.title}", sub_url(@post.sub), method: :get %>
+
+<% @post.subs.each do |sub| %>
+  <%= link_to "#{sub.title}", sub_url(sub), method: :get %>
+<% end %>

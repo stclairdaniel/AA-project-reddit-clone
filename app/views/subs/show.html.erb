@@ -2,3 +2,10 @@
 <h2> <%= @sub.description %></h2>
 <p> <%= @sub.moderator.user_name %> </p>
 <%= link_to "edit sub", edit_sub_url, method: :get %>
+<%= button_to "Write new post", new_post_url, method: :get %>
+
+<ul>
+  <% @sub.posts.each do |post| %>
+    <li><%= link_to "#{post.title}", post_url(post), method: :get %></li>
+  <% end %>
+</ul>

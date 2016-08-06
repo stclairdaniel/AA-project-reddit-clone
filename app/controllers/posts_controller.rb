@@ -21,12 +21,10 @@ class PostsController < ApplicationController
 
   def update
     @post = Post.find_by(id: params[:id])
-    sub = Sub.find_by(title: post_params[:sub_title])
-    sub_id = sub.id if sub
     if @post.update(title: post_params[:title],
                      content: post_params[:content],
                      url: post_params[:url],
-                     sub_id: sub_id,
+                     sub_ids: post_params[:sub_ids],
                      author_id: current_user.id)
       redirect_to post_url(@post)
     else
@@ -37,14 +35,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    sub = Sub.find_by(title: post_params[:sub_title])
-    sub_id = sub.id if sub
-
     @post = Post.new(title: post_params[:title],
                      content: post_params[:content],
                      url: post_params[:url],
-                     sub_id: sub_id,
                      author_id: current_user.id)
+    @post.sub_ids = post_params[:sub_ids]
     if @post.save
       redirect_to post_url(@post)
     else
@@ -65,7 +60,7 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :content, :url, :sub_title)
+    params.require(:post).permit(:title, :content, :url, :sub_title, sub_ids: [])
   end
 
   def author_check

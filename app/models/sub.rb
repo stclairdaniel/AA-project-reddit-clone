@@ -16,7 +16,9 @@ class Sub < ActiveRecord::Base
     foreign_key: :moderator_id,
     class_name: :User
 
-  has_many :posts
+  has_many :posts,
+    through: :post_subs,
+    source: :post
 
   has_many :post_subs
 
