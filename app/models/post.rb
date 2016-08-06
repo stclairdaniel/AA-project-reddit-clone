@@ -26,6 +26,8 @@ class Post < ActiveRecord::Base
     through: :post_subs,
     source: :sub
 
+  has_many :comments
+
   private
   def has_a_sub
     unless self.subs.size > 0

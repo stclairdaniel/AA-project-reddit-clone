@@ -2,6 +2,18 @@
 <h1> <%= @post.content %> </h1>
 <%= link_to "#{@post.url}", @post.url, method: :get %>
 
+<ul>
+<% @post.comments.each do |comment| %>
+<li>
+  User:
+  <%= comment.author.user_name %>
+  Content:
+  <%= comment.content %>
+</li>
+<% end %>
+</ul>
+
+<%= button_to "Post new Comment", new_post_comment_url(@post.id), method: :get %>
 <%= button_to "Edit Post", edit_post_url, method: :get %>
 <%= button_to "Delete Post", post_url(@post), method: :delete %>
 Go back to:
